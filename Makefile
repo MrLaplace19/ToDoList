@@ -12,7 +12,7 @@ env-down:
 env-cleanup:
 	@read -p "Are you sure you want to delete the database? (y/n): " confirm; \
 	if [ "$$confirm" = "y" ]; then \
-		docker compose down postgres-app;  \
+		docker compose down postgres-app port-forwarder ;  \
 		rm -rf out/pgdata/;  \
 		echo "Database deleted successfully."; \
 	else \
@@ -56,3 +56,9 @@ migration-action:
 		-path /migrations \
 		-database "postgres://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@postgres-app:5432/$(POSTGRES_DB)?sslmode=disable" \
 		"$(action)"
+
+todoapp-run:
+	@export LOGGER_FOLDER=${PROJECT_ROOT}/out/logs && \
+	export POSTGRES_HOST=localhost && \
+	go mod tidy && \
+	go run ./cmd/todoapp/main.go

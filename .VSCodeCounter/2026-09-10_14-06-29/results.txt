@@ -1,0 +1,86 @@
+Date : 2026-09-10 14:06:29
+Directory : /Users/mrlaplace/git_rep/REST
+Total : 31 files,  942 codes, 0 comments, 246 blanks, all 1188 lines
+
+Languages
++------------------+------------+------------+------------+------------+------------+
+| language         | files      | code       | comment    | blank      | total      |
++------------------+------------+------------+------------+------------+------------+
+| Go               |         24 |        766 |          0 |        219 |        985 |
+| Go Checksum File |          1 |         54 |          0 |          1 |         55 |
+| Makefile         |          1 |         48 |          0 |         16 |         64 |
+| MS SQL           |          2 |         29 |          0 |          3 |         32 |
+| Go Module File   |          1 |         23 |          0 |          4 |         27 |
+| YAML             |          1 |         22 |          0 |          2 |         24 |
+| Markdown         |          1 |          0 |          0 |          1 |          1 |
++------------------+------------+------------+------------+------------+------------+
+
+Directories
++------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                     | files      | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                        |         31 |        942 |          0 |        246 |      1,188 |
+| . (Files)                                                                                |          5 |        147 |          0 |         24 |        171 |
+| cmd                                                                                      |          1 |         55 |          0 |         13 |         68 |
+| cmd/todoapp                                                                              |          1 |         55 |          0 |         13 |         68 |
+| internal                                                                                 |         23 |        711 |          0 |        206 |        917 |
+| internal/core                                                                            |         16 |        543 |          0 |        152 |        695 |
+| internal/core/domain                                                                     |          2 |         45 |          0 |         16 |         61 |
+| internal/core/errors                                                                     |          1 |          7 |          0 |          3 |         10 |
+| internal/core/logger                                                                     |          2 |         82 |          0 |         20 |        102 |
+| internal/core/repository                                                                 |          2 |         69 |          0 |         17 |         86 |
+| internal/core/repository/postgres                                                        |          2 |         69 |          0 |         17 |         86 |
+| internal/core/repository/postgres/pool                                                   |          2 |         69 |          0 |         17 |         86 |
+| internal/core/transport                                                                  |          9 |        340 |          0 |         96 |        436 |
+| internal/core/transport/http                                                             |          9 |        340 |          0 |         96 |        436 |
+| internal/core/transport/http/middelware                                                  |          2 |         89 |          0 |         24 |        113 |
+| internal/core/transport/http/request                                                     |          1 |         18 |          0 |          7 |         25 |
+| internal/core/transport/http/response                                                    |          2 |         94 |          0 |         30 |        124 |
+| internal/core/transport/http/server                                                      |          4 |        139 |          0 |         35 |        174 |
+| internal/features                                                                        |          7 |        168 |          0 |         54 |        222 |
+| internal/features/users                                                                  |          7 |        168 |          0 |         54 |        222 |
+| internal/features/users/repository                                                       |          3 |         53 |          0 |         15 |         68 |
+| internal/features/users/repository/postgres                                              |          3 |         53 |          0 |         15 |         68 |
+| internal/features/users/service                                                          |          2 |         38 |          0 |         14 |         52 |
+| internal/features/users/transport                                                        |          2 |         77 |          0 |         25 |        102 |
+| internal/features/users/transport/http                                                   |          2 |         77 |          0 |         25 |        102 |
+| migrations                                                                               |          2 |         29 |          0 |          3 |         32 |
++------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++------------------------------------------------------------------------------------------+------------------+------------+------------+------------+------------+
+| filename                                                                                 | language         | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------------+------------------+------------+------------+------------+------------+
+| /Users/mrlaplace/git_rep/REST/Makefile                                                   | Makefile         |         48 |          0 |         16 |         64 |
+| /Users/mrlaplace/git_rep/REST/README.md                                                  | Markdown         |          0 |          0 |          1 |          1 |
+| /Users/mrlaplace/git_rep/REST/cmd/todoapp/main.go                                        | Go               |         55 |          0 |         13 |         68 |
+| /Users/mrlaplace/git_rep/REST/docker-compose.yml                                         | YAML             |         22 |          0 |          2 |         24 |
+| /Users/mrlaplace/git_rep/REST/go.mod                                                     | Go Module File   |         23 |          0 |          4 |         27 |
+| /Users/mrlaplace/git_rep/REST/go.sum                                                     | Go Checksum File |         54 |          0 |          1 |         55 |
+| /Users/mrlaplace/git_rep/REST/internal/core/domain/uninitialized.go                      | Go               |          5 |          0 |          1 |          6 |
+| /Users/mrlaplace/git_rep/REST/internal/core/domain/user.go                               | Go               |         40 |          0 |         15 |         55 |
+| /Users/mrlaplace/git_rep/REST/internal/core/errors/common.go                             | Go               |          7 |          0 |          3 |         10 |
+| /Users/mrlaplace/git_rep/REST/internal/core/logger/config.go                             | Go               |         20 |          0 |          7 |         27 |
+| /Users/mrlaplace/git_rep/REST/internal/core/logger/logger.go                             | Go               |         62 |          0 |         13 |         75 |
+| /Users/mrlaplace/git_rep/REST/internal/core/repository/postgres/pool/config.go           | Go               |         28 |          0 |          8 |         36 |
+| /Users/mrlaplace/git_rep/REST/internal/core/repository/postgres/pool/pool.go             | Go               |         41 |          0 |          9 |         50 |
+| /Users/mrlaplace/git_rep/REST/internal/core/transport/http/middelware/common.go          | Go               |         77 |          0 |         21 |         98 |
+| /Users/mrlaplace/git_rep/REST/internal/core/transport/http/middelware/middleware.go      | Go               |         12 |          0 |          3 |         15 |
+| /Users/mrlaplace/git_rep/REST/internal/core/transport/http/request/decode.go             | Go               |         18 |          0 |          7 |         25 |
+| /Users/mrlaplace/git_rep/REST/internal/core/transport/http/response/handler.go           | Go               |         69 |          0 |         24 |         93 |
+| /Users/mrlaplace/git_rep/REST/internal/core/transport/http/response/writer.go            | Go               |         25 |          0 |          6 |         31 |
+| /Users/mrlaplace/git_rep/REST/internal/core/transport/http/server/config.go              | Go               |         24 |          0 |          8 |         32 |
+| /Users/mrlaplace/git_rep/REST/internal/core/transport/http/server/route.go               | Go               |         18 |          0 |          3 |         21 |
+| /Users/mrlaplace/git_rep/REST/internal/core/transport/http/server/router.go              | Go               |         29 |          0 |          8 |         37 |
+| /Users/mrlaplace/git_rep/REST/internal/core/transport/http/server/server.go              | Go               |         68 |          0 |         16 |         84 |
+| /Users/mrlaplace/git_rep/REST/internal/features/users/repository/postgres/create_user.go | Go               |         34 |          0 |         10 |         44 |
+| /Users/mrlaplace/git_rep/REST/internal/features/users/repository/postgres/model.go       | Go               |          7 |          0 |          1 |          8 |
+| /Users/mrlaplace/git_rep/REST/internal/features/users/repository/postgres/repository.go  | Go               |         12 |          0 |          4 |         16 |
+| /Users/mrlaplace/git_rep/REST/internal/features/users/service/create_user.go             | Go               |         19 |          0 |          6 |         25 |
+| /Users/mrlaplace/git_rep/REST/internal/features/users/service/service.go                 | Go               |         19 |          0 |          8 |         27 |
+| /Users/mrlaplace/git_rep/REST/internal/features/users/transport/http/create_user.go      | Go               |         47 |          0 |         18 |         65 |
+| /Users/mrlaplace/git_rep/REST/internal/features/users/transport/http/transport.go        | Go               |         30 |          0 |          7 |         37 |
+| /Users/mrlaplace/git_rep/REST/migrations/000001_.down.sql                                | MS SQL           |          3 |          0 |          0 |          3 |
+| /Users/mrlaplace/git_rep/REST/migrations/000001_.up.sql                                  | MS SQL           |         26 |          0 |          3 |         29 |
+| Total                                                                                    |                  |        942 |          0 |        246 |      1,188 |
++------------------------------------------------------------------------------------------+------------------+------------+------------+------------+------------+
