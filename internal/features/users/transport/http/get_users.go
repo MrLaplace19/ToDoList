@@ -15,7 +15,6 @@ func(h *UserHttpHandler) GetUsers(rw http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
 	log := core_logger.FromContext(ctx)
-
 	responseHandler := core_http_response.NewHTTPResponseHandler(log, rw)
 
 	limit, offset, err := getLimintOffsetQueryParams(r)
@@ -23,7 +22,7 @@ func(h *UserHttpHandler) GetUsers(rw http.ResponseWriter, r *http.Request) {
 		responseHandler.ErrorResponse(err, "failed to get limit/offset")
 		return
 	}
-	userDomains, err := h.userService.GetUser(ctx, limit, offset)
+	userDomains, err := h.userService.GetUsers(ctx, limit, offset)
 	if err != nil {
 		responseHandler.ErrorResponse(err, "failed to get users")
 	}

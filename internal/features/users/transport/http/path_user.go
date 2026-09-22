@@ -1,0 +1,91 @@
+package users_transport_http
+
+import (
+	"fmt"
+	"net/http"
+	"strings"
+
+	"github.com/MrLaplace19/ToDoList/internal/core/domain"
+	core_logger "github.com/MrLaplace19/ToDoList/internal/core/logger"
+	core_http_request "github.com/MrLaplace19/ToDoList/internal/core/transport/http/request"
+	core_http_response "github.com/MrLaplace19/ToDoList/internal/core/transport/http/response"
+	core_http_types "github.com/MrLaplace19/ToDoList/internal/core/transport/http/types"
+	core_http_utils "github.com/MrLaplace19/ToDoList/internal/core/transport/http/utils"
+)
+
+type PatchUserRequest struct {
+	FullName    core_http_types.Nullable[string] `json:"full_name"`
+	PhoneNumber core_http_types.Nullable[string] `json:"phone_number"`
+}
+
+func (r *PatchUserRequest) Validate() error {
+	if r.FullName.Set {
+		if r.FullName.Value == nil {
+			return fmt.Errorf("'FullName' can`t be NULL")
+		}
+		fullnameLen := len([]rune(*r.FullName.Value))
+		if fullnameLen < 3 || fullnameLen > 100 {
+			return fmt.Errorf("'FullName' must be between 3 and 100 symbols")
+		}
+	}
+
+	if r.PhoneNumber.Set {
+		if r.PhoneNumber.Value != nil {
+			phonenumberLen := len([]rune(*r.PhoneNumber.Value))
+			if phonenumberLen < 10 || phonenumberLen > 15 {
+				return fmt.Errorf("'PhoneNumber' must be between 10 and 15 symbols")
+			}
+			if !strings.HasPrefix(*r.PhoneNumber.Value, "+") {
+				return fmt.Errorf("'PhoneNumber' must start +")
+			}
+		}
+	}
+
+	return nil
+}
+
+type PatchUserDTOResponse UserDTOResponse
+
+func (h *UserHttpHandler) PatchUser(rw http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	log := core_logger.FromContext(ctx)
+	responseHandler := core_http_response.NewHTTPResponseHandler(log, rw)
+
+	userID, err := core_http_utils.GetIntPathValue(r, "id")
+	if err != nil {
+		responseHandler.ErrorResponse(
+			err,
+			"failed to get userID path value",
+		)
+	}
+
+	var request PatchUserRequest
+	if err := core_http_request.DecodeAndValidateRequest(r, &request); err != nil {
+		responseHandler.ErrorResponse(
+			err,
+			"failed to decode and validate http request",
+		)
+		return
+	}
+
+	userPatch := userPatchFromRequest(request)
+
+	userDomain, err := h.userService.PatchUser(ctx, userID, userPatch)
+	if err != nil {
+		responseHandler.ErrorResponse(
+			err,
+			"failed to patch user",
+		)
+		return
+	}
+
+	response := UserDTOResponse(userDTOFromDomain(userDomain))
+	responseHandler.JsonResponse(response, http.StatusOK)
+}
+
+func userPatchFromRequest(request PatchUserRequest) domain.UserPatch {
+	return domain.UserPatch{
+		FullName:    request.FullName.ToDomain(),
+		PhoneNumber: request.PhoneNumber.ToDomain(),
+	}
+}

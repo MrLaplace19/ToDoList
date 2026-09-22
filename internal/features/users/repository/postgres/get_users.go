@@ -7,7 +7,7 @@ import (
 	"github.com/MrLaplace19/ToDoList/internal/core/domain"
 )
 
-func (r *UsersRepository) GetUser(
+func (r *UsersRepository) GetUsers(
 		ctx context.Context,
 		limit *int,
 		offset *int,

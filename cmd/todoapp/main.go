@@ -29,7 +29,7 @@ func main() {
 	fmt.Println("HELLO TODOAPP")
 
 	logger, err := core_logger.NewLogger(core_logger.NewConfigMust())
-
+	
 	if err != nil{
 		fmt.Println("FAIL LOGGER", err)
 		os.Exit(1)

@@ -19,7 +19,7 @@ type Pool interface{
 
 type ConnectionPool struct{
 	*pgxpool.Pool
-	OptTimeOut time.Duration
+	optTimeOut time.Duration
 }
 
 func NewConnectionPool(cfg Config, ctx context.Context) (*ConnectionPool, error){
@@ -41,10 +41,10 @@ func NewConnectionPool(cfg Config, ctx context.Context) (*ConnectionPool, error)
 	}
 	return &ConnectionPool{
 		Pool: pool,
-		OptTimeOut: cfg.TimeOut,
+		optTimeOut: cfg.TimeOut,
 	}, nil
 }
 
 func (p *ConnectionPool) OptionalTimeOut() time.Duration{
-	return p.OptTimeOut
+	return p.optTimeOut
 }

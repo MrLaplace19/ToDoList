@@ -8,7 +8,7 @@ import (
 	core_errors "github.com/MrLaplace19/ToDoList/internal/core/errors"
 )
 
-func (s *UsersService) GetUser(
+func (s *UsersService) GetUsers(
 		ctx context.Context,
 		limit *int,
 		offset *int,
@@ -20,7 +20,7 @@ func (s *UsersService) GetUser(
 			return nil, fmt.Errorf("offset must be non-negative: %w", core_errors.ErrInvalidArgument)
 		}
 
-		users, err := s.usersRepository.GetUser(ctx, limit, offset)
+		users, err := s.usersRepository.GetUsers(ctx, limit, offset)
 
 		if err != nil{
 			return nil, fmt.Errorf("get users from repository: %w", err)
