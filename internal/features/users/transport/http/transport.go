@@ -35,7 +35,6 @@ type UserService interface{
 		userID int,
 		userPatch domain.UserPatch,
 	)(domain.User, error)
-
 }
 
 func NewUserHttpHandler(userService UserService) *UserHttpHandler{

@@ -28,7 +28,7 @@ func NewConfigMust() Config{
 	cfg, err := NewConfig()
 
 	if err != nil{
-		fmt.Errorf("get Process postgres config : %w", err)
+		panic(err)
 	}
 
 	return cfg

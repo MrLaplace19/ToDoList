@@ -34,7 +34,11 @@ func (r *UsersRepository) GetUser(
 		)
 		if err != nil {
 			if errors.Is(err, pgx.ErrNoRows){
-				return domain.User{}, fmt.Errorf("user with id='%d': %w", userId, core_errors.ErrNotFound)
+				return domain.User{}, fmt.Errorf(
+					"user with id='%d': %w",
+					userId,
+					core_errors.ErrNotFound,
+				)
 			}
 			return domain.User{}, fmt.Errorf("scan error: %w", err)
 		}

@@ -3,7 +3,6 @@ package users_service
 import (
 	"context"
 	"fmt"
-
 	"github.com/MrLaplace19/ToDoList/internal/core/domain"
 )
 

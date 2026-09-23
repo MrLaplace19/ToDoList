@@ -14,7 +14,6 @@ import (
 type HTTPResponseHandler struct{
 	log *core_logger.Logger
 	w http.ResponseWriter
-	
 }
 
 func NewHTTPResponseHandler(log *core_logger.Logger, w http.ResponseWriter) *HTTPResponseHandler{
@@ -24,32 +23,33 @@ func NewHTTPResponseHandler(log *core_logger.Logger, w http.ResponseWriter) *HTT
 	}
 }
 
-func (h *HTTPResponseHandler) errorResponse(statuscode int, err error, msg string){
+func (h *HTTPResponseHandler) errorResponse(statusCode int, err error, msg string){
 	
-
 	response := map[string]string{
 		"message": msg,
 		"error": err.Error(),
 	}
 
-	h.JsonResponse(response, statuscode)
+	h.JsonResponse(response, statusCode)
 }
 
 func (h *HTTPResponseHandler) PanicResponse(p any, msg string){
-	StatusCode := http.StatusInternalServerError
+	statusCode := http.StatusInternalServerError
 	err := fmt.Errorf("unexpected panic: %v", p)
 
 	h.log.Error(msg, zap.Error(err))
 
 	h.errorResponse(
-		StatusCode,
+		statusCode,
 		err,
 		msg,
 	)
 }
+
 func (h *HTTPResponseHandler) NoContentResponse(){
 	h.w.WriteHeader(http.StatusNoContent)
 }
+
 func (h *HTTPResponseHandler) ErrorResponse(err error, msg string){
 	
 	var (
@@ -85,8 +85,8 @@ func (h *HTTPResponseHandler) ErrorResponse(err error, msg string){
 
 }
 
-func (h *HTTPResponseHandler) JsonResponse(responseBody any, statuscode int){
-	h.w.WriteHeader(statuscode)
+func (h *HTTPResponseHandler) JsonResponse(responseBody any, statusCode int){
+	h.w.WriteHeader(statusCode)
 
 	if err := json.NewEncoder(h.w).Encode(responseBody); err != nil{
 		h.log.Error("write HTTP response", zap.Error(err))

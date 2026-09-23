@@ -17,7 +17,7 @@ func(h *UserHttpHandler) GetUsers(rw http.ResponseWriter, r *http.Request) {
 	log := core_logger.FromContext(ctx)
 	responseHandler := core_http_response.NewHTTPResponseHandler(log, rw)
 
-	limit, offset, err := getLimintOffsetQueryParams(r)
+	limit, offset, err := getLimitOffsetQueryParams(r)
 	if err != nil {
 		responseHandler.ErrorResponse(err, "failed to get limit/offset")
 		return
@@ -31,7 +31,7 @@ func(h *UserHttpHandler) GetUsers(rw http.ResponseWriter, r *http.Request) {
 	responseHandler.JsonResponse(response, http.StatusOK)
 }
 
-func getLimintOffsetQueryParams(r *http.Request) (*int, *int, error){
+func getLimitOffsetQueryParams(r *http.Request) (*int, *int, error){
 
 	limit, err := core_http_utils.GetIntQueryParams(r, "limit")
 	if err !=nil{

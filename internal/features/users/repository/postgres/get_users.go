@@ -29,24 +29,24 @@ func (r *UsersRepository) GetUsers(
 		}
 		defer rows.Close()
 
-		var userModel []UserModel
+		var userModels []UserModel
 		for rows.Next(){
-			var usermodel UserModel
+			var userModel UserModel
 			err := rows.Scan(
-				&usermodel.ID,
-				&usermodel.Version,
-				&usermodel.FullName,
-				&usermodel.PhoneNumber,
+				&userModel.ID,
+				&userModel.Version,
+				&userModel.FullName,
+				&userModel.PhoneNumber,
 			)
 			if err != nil {
 				return nil, fmt.Errorf("scan users: %w", err)
 			}
-			userModel = append(userModel, usermodel)
+			userModels = append(userModels, userModel)
 		}
 		if err := rows.Err(); err != nil {
 			return nil, fmt.Errorf("next rows: %w", err)
 		}
 
-		userDomains := UserDomainsFromModel(userModel)
+		userDomains := UserDomainsFromModel(userModels)
 		return userDomains, nil
 	}

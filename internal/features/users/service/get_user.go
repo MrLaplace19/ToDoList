@@ -17,5 +17,4 @@ func(s *UsersService) GetUser(
 		}
 
 		return user, nil
-
 	}

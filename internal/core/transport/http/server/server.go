@@ -29,7 +29,7 @@ func NewHTTPServer(config Config, log *core_logger.Logger, middleware ...core_ht
 
 func (h *HTTPServer) Run(ctx context.Context) error{
 	
-	mux := core_http_middleware.ChainMiddelware(h.mux, h.middleware...)
+	mux := core_http_middleware.ChainMiddleware(h.mux, h.middleware...)
 	
 	server := &http.Server{
 		Addr: h.config.Addr,

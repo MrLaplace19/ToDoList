@@ -18,9 +18,9 @@ func NewResponseWriter(w http.ResponseWriter) *ResponseWriter{
 	}
 }
 
-func (rw *ResponseWriter) WriteHeader(statuscode int) {
-	rw.ResponseWriter.WriteHeader(statuscode)
-	rw.statusCode = statuscode
+func (rw *ResponseWriter) WriteHeader(statusCode int) {
+	rw.ResponseWriter.WriteHeader(statusCode)
+	rw.statusCode = statusCode
 }
 
 func (rw *ResponseWriter) GetStatusCodeOrPanic() int{

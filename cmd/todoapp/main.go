@@ -6,7 +6,6 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
-
 	core_logger "github.com/MrLaplace19/ToDoList/internal/core/logger"
 	core_postgres_pool "github.com/MrLaplace19/ToDoList/internal/core/repository/postgres/pool"
 	core_http_middleware "github.com/MrLaplace19/ToDoList/internal/core/transport/http/middelware"
@@ -55,8 +54,8 @@ func main() {
 		logger,
 		core_http_middleware.RequestId(),
 		core_http_middleware.Logger(logger),
-		core_http_middleware.Panic(),
 		core_http_middleware.Trace(),
+		core_http_middleware.Panic(),
 	)
 	apiVersionRouter := core_http_server.NewAPIVersion(core_http_server.ApiVersion1)
 	apiVersionRouter.RegisterRoutes(usersTransportHTTP.Routes()...)

@@ -61,7 +61,7 @@ func (l *Logger) With(field ...zap.Field) *Logger{
 
 func (l *Logger) Close() {
 	if err := l.file.Close(); err != nil {
-		fmt.Println("Ошибка закрытия лога", err)
+		fmt.Println("log not close: %w", err)
 	}
 }
 

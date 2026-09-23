@@ -26,8 +26,10 @@ func (h *UserHttpHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 
 	var request CreateUserRequest
 	if err := core_http_request.DecodeAndValidateRequest(r, &request); err != nil{
-		responseHandler.ErrorResponse(err, "failed to decode and validate HTTP request")
-	
+		responseHandler.ErrorResponse(
+			err,
+			"failed to decode and validate HTTP request",
+		)
 		return
 	}
 	
@@ -35,10 +37,12 @@ func (h *UserHttpHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 
 	userDomain, err := h.userService.CreateUser(ctx, userDomain)
 	if err != nil {
-		responseHandler.ErrorResponse(err, "failed to create user")
+		responseHandler.ErrorResponse(
+			err,
+			"failed to create user",
+		)
 		return
 	}
-
 	response := CreateUserResponse(userDTOFromDomain(userDomain))
 	
 	responseHandler.JsonResponse(response, http.StatusCreated)
@@ -46,6 +50,6 @@ func (h *UserHttpHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func domainFromDTO(dto CreateUserRequest) domain.User{
-	return domain.NewUserUnilitialized(dto.FullName, dto.PhoneNumber)
+	return domain.NewUserUninitialized(dto.FullName, dto.PhoneNumber)
 }
 

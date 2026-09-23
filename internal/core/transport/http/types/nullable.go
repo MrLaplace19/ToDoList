@@ -4,7 +4,16 @@ import (
 	"encoding/json"
 	"github.com/MrLaplace19/ToDoList/internal/core/domain"
 )
+/*
+IN: {}
+Nullable: SET: false; VALUE: nil
 
+IN: {"phone_number": null}
+Nullable: SET: true; VALUE: nil
+
+IN: {"phone_number": "+79998887766"}
+Nullable: SET: true; VALUE: "+79998887766"
+*/
 type Nullable[T any] struct {
 	domain.Nullable[T]
 }

@@ -12,6 +12,7 @@ import (
 
 const (
 	requestIdHeader = "X-Request-Id"
+	LogKey = "log"
 )
 
 func RequestId() Middleware{
@@ -41,7 +42,7 @@ func Logger(log *core_logger.Logger) Middleware {
 				zap.String("url", r.URL.String()),
 			)
 
-			ctx := context.WithValue(r.Context(), "log", l)
+			ctx := context.WithValue(r.Context(), LogKey, l)
 
 			next.ServeHTTP(w, r.WithContext(ctx))
 		})
