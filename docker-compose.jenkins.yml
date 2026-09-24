@@ -1,6 +1,9 @@
 services:
   jenkins:
-    image: jenkins/jenkins:lts-jdk21
+    build:
+      context: .
+      dockerfile: Dockerfile.Jenkins
+    image: todoapp-jenkins:go1.27.1
     container_name: todoapp-jenkins
     restart: unless-stopped
     ports:

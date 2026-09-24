@@ -1,16 +1,28 @@
-pipeline{
+pipeline {
     agent any
-    stages{
-        stage('Jenkins environment'){
-            steps{
+
+    stages {
+        stage('Environment') {
+            steps {
                 sh 'go version'
             }
         }
-        stage('CI started'){
-            steps{
-                sh 'echo CI for ToDoList started'
-                sh 'pwd'
-                sh 'ls -la'
+
+        stage('Vet') {
+            steps {
+                sh 'go vet ./...'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'go test -cover ./...'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'go build ./...'
             }
         }
     }
