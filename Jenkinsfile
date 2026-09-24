@@ -1,7 +1,7 @@
 pipeline{
     agent any
     stages{
-        stages('Jenkins environment'){
+        stage('Jenkins environment'){
             steps{
                 sh 'go version'
             }
