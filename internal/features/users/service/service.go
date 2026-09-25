@@ -5,25 +5,24 @@ import (
 	"github.com/MrLaplace19/ToDoList/internal/core/domain"
 )
 
-
-type UsersService struct{
+type UsersService struct {
 	usersRepository UsersRepository
 }
 
-type UsersRepository interface{
+type UsersRepository interface {
 	CreateUser(
 		ctx context.Context,
 		user domain.User,
-	)(domain.User, error)
+	) (domain.User, error)
 	GetUsers(
 		ctx context.Context,
 		limit *int,
 		offset *int,
-	)([]domain.User,error)
+	) ([]domain.User, error)
 	GetUser(
 		ctx context.Context,
 		userId int,
-	)(domain.User, error)
+	) (domain.User, error)
 	DeleteUser(
 		ctx context.Context,
 		userID int,
@@ -32,12 +31,11 @@ type UsersRepository interface{
 		ctx context.Context,
 		userID int,
 		user domain.User,
-	)(domain.User, error)
+	) (domain.User, error)
 }
 
-func NewUserService(usersRepository UsersRepository)*UsersService{
+func NewUserService(usersRepository UsersRepository) *UsersService {
 	return &UsersService{
 		usersRepository: usersRepository,
 	}
 }
-

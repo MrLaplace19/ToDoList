@@ -2,14 +2,14 @@ package core_http_utils
 
 import (
 	"fmt"
+	core_errors "github.com/MrLaplace19/ToDoList/internal/core/errors"
 	"net/http"
 	"strconv"
-	core_errors "github.com/MrLaplace19/ToDoList/internal/core/errors"
 )
 
 func GetIntPathValue(r *http.Request, key string) (int, error) {
 	pathValue := r.PathValue(key)
-	if pathValue == ""{
+	if pathValue == "" {
 		return 0, fmt.Errorf(
 			"no key= '%s' in path values: %w",
 			key,

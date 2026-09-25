@@ -3,9 +3,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"os"
-	"os/signal"
-	"syscall"
 	core_logger "github.com/MrLaplace19/ToDoList/internal/core/logger"
 	core_postgres_pool "github.com/MrLaplace19/ToDoList/internal/core/repository/postgres/pool"
 	core_http_middleware "github.com/MrLaplace19/ToDoList/internal/core/transport/http/middelware"
@@ -14,6 +11,9 @@ import (
 	users_service "github.com/MrLaplace19/ToDoList/internal/features/users/service"
 	users_transport_http "github.com/MrLaplace19/ToDoList/internal/features/users/transport/http"
 	"go.uber.org/zap"
+	"os"
+	"os/signal"
+	"syscall"
 )
 
 func main() {
@@ -28,8 +28,8 @@ func main() {
 	fmt.Println("HELLO TODOAPP")
 
 	logger, err := core_logger.NewLogger(core_logger.NewConfigMust())
-	
-	if err != nil{
+
+	if err != nil {
 		fmt.Println("FAIL LOGGER", err)
 		os.Exit(1)
 	}
@@ -37,7 +37,7 @@ func main() {
 
 	logger.Debug("initializing to init connection pool")
 	pool, err := core_postgres_pool.NewConnectionPool(core_postgres_pool.NewConfigMust(), ctx)
-	if err != nil{
+	if err != nil {
 		logger.Fatal("failed to init connection pool", zap.Error(err))
 	}
 	defer pool.Close()
@@ -61,7 +61,7 @@ func main() {
 	apiVersionRouter.RegisterRoutes(usersTransportHTTP.Routes()...)
 	httpServer.RegisterAPIRouters(apiVersionRouter)
 
-	if err := httpServer.Run(ctx); err !=nil{
+	if err := httpServer.Run(ctx); err != nil {
 		logger.Error("HTTP server run error", zap.Error(err))
 	}
 }

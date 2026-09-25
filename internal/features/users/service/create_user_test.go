@@ -9,7 +9,7 @@ import (
 	core_errors "github.com/MrLaplace19/ToDoList/internal/core/errors"
 )
 
-type fakeUserRepository struct{
+type fakeUserRepository struct {
 	UsersRepository
 	createCalled bool
 }
@@ -17,21 +17,21 @@ type fakeUserRepository struct{
 func (f *fakeUserRepository) CreateUser(
 	ctx context.Context,
 	user domain.User,
-)(domain.User, error){
+) (domain.User, error) {
 	f.createCalled = true
 	return user, nil
 }
 
-func TestUserServiceCreate_InvalidUser(t *testing.T){
+func TestUserServiceCreate_InvalidUser(t *testing.T) {
 	repository := &fakeUserRepository{}
 	service := NewUserService(repository)
 	user := domain.NewUserUninitialized("ab", nil)
-	_, err := service.CreateUser(context.Background(),user )
+	_, err := service.CreateUser(context.Background(), user)
 
-	if err == nil{
+	if err == nil {
 		t.Fatal("expected error, got nil")
 	}
-	if !errors.Is(err, core_errors.ErrInvalidArgument){
+	if !errors.Is(err, core_errors.ErrInvalidArgument) {
 		t.Fatal("expected ErrInvalidArgument: %w", err)
 	}
 	if repository.createCalled {

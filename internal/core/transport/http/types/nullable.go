@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/MrLaplace19/ToDoList/internal/core/domain"
 )
+
 /*
 IN: {}
 Nullable: SET: false; VALUE: nil

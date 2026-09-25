@@ -8,7 +8,7 @@ import (
 	core_http_utils "github.com/MrLaplace19/ToDoList/internal/core/transport/http/utils"
 )
 
-func (h *UserHttpHandler) DeleteUser(rw http.ResponseWriter, r *http.Request){
+func (h *UserHttpHandler) DeleteUser(rw http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	log := core_logger.FromContext(ctx)
 	responseHandler := core_http_response.NewHTTPResponseHandler(log, rw)
@@ -22,7 +22,7 @@ func (h *UserHttpHandler) DeleteUser(rw http.ResponseWriter, r *http.Request){
 		return
 	}
 
-	if err := h.userService.DeleteUser(ctx, userID); err !=nil{
+	if err := h.userService.DeleteUser(ctx, userID); err != nil {
 		responseHandler.ErrorResponse(
 			err,
 			"failed to delete user",

@@ -11,44 +11,44 @@ import (
 )
 
 func (r *UsersRepository) GetUser(
-		ctx context.Context,
-		userId int,
-	)(domain.User, error){
-		ctx, cancel := context.WithTimeout(ctx, r.pool.OptionalTimeOut())
-		defer cancel()
+	ctx context.Context,
+	userId int,
+) (domain.User, error) {
+	ctx, cancel := context.WithTimeout(ctx, r.pool.OptionalTimeOut())
+	defer cancel()
 
-		query := `
+	query := `
 		SELECT id,version,full_name,phone_number
 		FROM todoapp.users
 		WHERE id=$1
 		`
 
-		row := r.pool.QueryRow(ctx, query, userId)
+	row := r.pool.QueryRow(ctx, query, userId)
 
-		var userModel UserModel
-		err := row.Scan(
-			&userModel.ID,
-			&userModel.Version,
-			&userModel.FullName,
-			&userModel.PhoneNumber,
-		)
-		if err != nil {
-			if errors.Is(err, pgx.ErrNoRows){
-				return domain.User{}, fmt.Errorf(
-					"user with id='%d': %w",
-					userId,
-					core_errors.ErrNotFound,
-				)
-			}
-			return domain.User{}, fmt.Errorf("scan error: %w", err)
+	var userModel UserModel
+	err := row.Scan(
+		&userModel.ID,
+		&userModel.Version,
+		&userModel.FullName,
+		&userModel.PhoneNumber,
+	)
+	if err != nil {
+		if errors.Is(err, pgx.ErrNoRows) {
+			return domain.User{}, fmt.Errorf(
+				"user with id='%d': %w",
+				userId,
+				core_errors.ErrNotFound,
+			)
 		}
-
-		userDomain := domain.User{
-			ID: userModel.ID,
-			Version: userModel.Version,
-			FullName: userModel.FullName,
-			PhoneNumber: userModel.PhoneNumber,
-		}
-
-		return userDomain, nil
+		return domain.User{}, fmt.Errorf("scan error: %w", err)
 	}
+
+	userDomain := domain.User{
+		ID:          userModel.ID,
+		Version:     userModel.Version,
+		FullName:    userModel.FullName,
+		PhoneNumber: userModel.PhoneNumber,
+	}
+
+	return userDomain, nil
+}

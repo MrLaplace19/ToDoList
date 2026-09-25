@@ -11,13 +11,13 @@ import (
 )
 
 func (r *UsersRepository) PatchUser(
-		ctx context.Context,
-		userID int,
-		user domain.User,
-	)(domain.User, error){
-		ctx, cancel := context.WithTimeout(ctx, r.pool.OptionalTimeOut())
-		defer cancel()
-		query := `
+	ctx context.Context,
+	userID int,
+	user domain.User,
+) (domain.User, error) {
+	ctx, cancel := context.WithTimeout(ctx, r.pool.OptionalTimeOut())
+	defer cancel()
+	query := `
 		UPDATE todoapp.users
 		SET
 			full_name=$1,
@@ -31,25 +31,25 @@ func (r *UsersRepository) PatchUser(
 			phone_number
 		`
 
-		row := r.pool.QueryRow(ctx, query, user.FullName, user.PhoneNumber, userID, user.Version)
-		var userModel UserModel
-		err := row.Scan(
-			&userModel.ID,
-			&userModel.Version,
-			&userModel.FullName,
-			&userModel.PhoneNumber,
-		)
-		if err !=nil{
-			if errors.Is(err, pgx.ErrNoRows){
-				return domain.User{}, fmt.Errorf(
-					"user with id='%v' concurently accessed: %w",
-					userID,
-					core_errors.ErrConflict,
-				)
-			}
-
-			return domain.User{}, fmt.Errorf("user scan to patch: %w", err)
+	row := r.pool.QueryRow(ctx, query, user.FullName, user.PhoneNumber, userID, user.Version)
+	var userModel UserModel
+	err := row.Scan(
+		&userModel.ID,
+		&userModel.Version,
+		&userModel.FullName,
+		&userModel.PhoneNumber,
+	)
+	if err != nil {
+		if errors.Is(err, pgx.ErrNoRows) {
+			return domain.User{}, fmt.Errorf(
+				"user with id='%v' concurently accessed: %w",
+				userID,
+				core_errors.ErrConflict,
+			)
 		}
 
-		return domain.NewUser(userModel.FullName,userModel.PhoneNumber, userModel.ID, userModel.Version), nil
+		return domain.User{}, fmt.Errorf("user scan to patch: %w", err)
 	}
+
+	return domain.NewUser(userModel.FullName, userModel.PhoneNumber, userModel.ID, userModel.Version), nil
+}

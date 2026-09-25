@@ -10,29 +10,28 @@ import (
 )
 
 type CreateUserRequest struct {
-	FullName string `json:"full_name" validate:"required,min=3,max=100"`
+	FullName    string  `json:"full_name" validate:"required,min=3,max=100"`
 	PhoneNumber *string `json:"phone_number" validate:"omitempty,min=10,max=15,startswith=+"`
 }
 
 type CreateUserResponse UserDTOResponse
 
 func (h *UserHttpHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
-	
+
 	ctx := r.Context()
 	log := core_logger.FromContext(ctx)
 
 	responseHandler := core_http_response.NewHTTPResponseHandler(log, w)
 
-
 	var request CreateUserRequest
-	if err := core_http_request.DecodeAndValidateRequest(r, &request); err != nil{
+	if err := core_http_request.DecodeAndValidateRequest(r, &request); err != nil {
 		responseHandler.ErrorResponse(
 			err,
 			"failed to decode and validate HTTP request",
 		)
 		return
 	}
-	
+
 	userDomain := domainFromDTO(request)
 
 	userDomain, err := h.userService.CreateUser(ctx, userDomain)
@@ -44,12 +43,11 @@ func (h *UserHttpHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	response := CreateUserResponse(userDTOFromDomain(userDomain))
-	
+
 	responseHandler.JsonResponse(response, http.StatusCreated)
 
 }
 
-func domainFromDTO(dto CreateUserRequest) domain.User{
+func domainFromDTO(dto CreateUserRequest) domain.User {
 	return domain.NewUserUninitialized(dto.FullName, dto.PhoneNumber)
 }
-

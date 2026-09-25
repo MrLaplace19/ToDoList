@@ -3,6 +3,12 @@ export
 
 export PROJECT_ROOT = $(shell pwd)
 
+env-jenkins-up:
+	@docker compose -f docker-compose.jenkins.yml up -d
+
+env-jenkins-down:
+	@ docker compose -f docker-compose.jenkins.yml down
+
 env-up:
 	@docker compose up -d postgres-app
 

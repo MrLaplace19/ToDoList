@@ -2,6 +2,11 @@ pipeline {
     agent any
 
     stages {
+        stage('Format'){
+            steps{
+                sh 'test -z "$(gofmt -l .)"'
+            }
+        }
         stage('Environment') {
             steps {
                 sh 'go version'

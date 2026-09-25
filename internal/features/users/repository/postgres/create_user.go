@@ -7,38 +7,37 @@ import (
 	"github.com/MrLaplace19/ToDoList/internal/core/domain"
 )
 
-
 func (r *UsersRepository) CreateUser(
-		ctx context.Context,
-		user domain.User,
-	)(domain.User, error){
-		ctx, cancel := context.WithTimeout(ctx, r.pool.OptionalTimeOut())
-		defer cancel()
+	ctx context.Context,
+	user domain.User,
+) (domain.User, error) {
+	ctx, cancel := context.WithTimeout(ctx, r.pool.OptionalTimeOut())
+	defer cancel()
 
-		query := `
+	query := `
 		INSERT INTO todoapp.users (full_name, phone_number)
 		VALUES ($1,$2)
 		RETURNING id, version,full_name, phone_number`
 
-		row := r.pool.QueryRow(ctx, query, user.FullName, user.PhoneNumber)
+	row := r.pool.QueryRow(ctx, query, user.FullName, user.PhoneNumber)
 
-		var userModel UserModel
+	var userModel UserModel
 
-		if err := row.Scan(
-			&userModel.ID,
-			&userModel.Version,
-			&userModel.FullName,
-			&userModel.PhoneNumber,
-		); err != nil{
-			return domain.User{}, fmt.Errorf("scan usermodel: %w", err)
-		}
-
-		userDomain := domain.NewUser(
-			userModel.FullName,
-			userModel.PhoneNumber,
-			userModel.ID,
-			userModel.Version,
-		)
-
-		return userDomain, nil
+	if err := row.Scan(
+		&userModel.ID,
+		&userModel.Version,
+		&userModel.FullName,
+		&userModel.PhoneNumber,
+	); err != nil {
+		return domain.User{}, fmt.Errorf("scan usermodel: %w", err)
 	}
+
+	userDomain := domain.NewUser(
+		userModel.FullName,
+		userModel.PhoneNumber,
+		userModel.ID,
+		userModel.Version,
+	)
+
+	return userDomain, nil
+}

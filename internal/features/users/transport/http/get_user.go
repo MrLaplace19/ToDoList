@@ -10,7 +10,7 @@ import (
 
 type GetUserResponse UserDTOResponse
 
-func (h *UserHttpHandler) GetUser(rw http.ResponseWriter, r *http.Request){
+func (h *UserHttpHandler) GetUser(rw http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	log := core_logger.FromContext(ctx)
 
@@ -27,7 +27,7 @@ func (h *UserHttpHandler) GetUser(rw http.ResponseWriter, r *http.Request){
 
 	user, err := h.userService.GetUser(ctx, userID)
 
-	if err !=nil {
+	if err != nil {
 		responseHandler.ErrorResponse(
 			err,
 			"failed to get user",
