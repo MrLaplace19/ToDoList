@@ -29,6 +29,16 @@ func NewUser(fullName string, phoneNumber *string, id, version int) User {
 	}
 }
 
+func NewUserPatch(
+	fullName Nullable[string],
+	phoneNumber Nullable[string],
+) UserPatch{
+	return UserPatch{
+		FullName: fullName,
+		PhoneNumber: phoneNumber,
+	}
+}
+
 func (u *User) Validate() error {
 	fullNameLen := len([]rune(u.FullName))
 	if fullNameLen < 3 || fullNameLen > 100 {

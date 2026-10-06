@@ -7,7 +7,7 @@ import (
 
 	"github.com/MrLaplace19/ToDoList/internal/core/domain"
 	core_errors "github.com/MrLaplace19/ToDoList/internal/core/errors"
-	"github.com/jackc/pgx/v5"
+	core_postgres_pool "github.com/MrLaplace19/ToDoList/internal/core/repository/postgres/pool"
 )
 
 func (r *UsersRepository) PatchUser(
@@ -28,7 +28,7 @@ func (r *UsersRepository) PatchUser(
 			id,
 			version,
 			full_name,
-			phone_number
+			phone_number;
 		`
 
 	row := r.pool.QueryRow(ctx, query, user.FullName, user.PhoneNumber, userID, user.Version)
@@ -40,7 +40,7 @@ func (r *UsersRepository) PatchUser(
 		&userModel.PhoneNumber,
 	)
 	if err != nil {
-		if errors.Is(err, pgx.ErrNoRows) {
+		if errors.Is(err, core_postgres_pool.ErrNoRows) {
 			return domain.User{}, fmt.Errorf(
 				"user with id='%v' concurently accessed: %w",
 				userID,

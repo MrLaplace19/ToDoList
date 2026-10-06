@@ -3,7 +3,7 @@ package core_logger
 import "github.com/kelseyhightower/envconfig"
 
 type Config struct {
-	Lvl    string `envconfig:"LEVEL" default:"DEBUG" required:"true"`
+	Lvl    string `envconfig:"LEVEL" default:"DEBUG"`
 	Folder string `envconfig:"FOLDER" default:"./logs" required:"true"`
 }
 

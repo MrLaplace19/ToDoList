@@ -1,18 +1,17 @@
 package core_http_middleware
 
 import (
-	"context"
+	"net/http"
+	"time"
+
 	core_logger "github.com/MrLaplace19/ToDoList/internal/core/logger"
 	core_response "github.com/MrLaplace19/ToDoList/internal/core/transport/http/response"
 	"github.com/google/uuid"
 	"go.uber.org/zap"
-	"net/http"
-	"time"
 )
 
 const (
 	requestIdHeader = "X-Request-Id"
-	LogKey          = "log"
 )
 
 func RequestId() Middleware {
@@ -41,31 +40,9 @@ func Logger(log *core_logger.Logger) Middleware {
 				zap.String("url", r.URL.String()),
 			)
 
-			ctx := context.WithValue(r.Context(), LogKey, l)
+			ctx := core_logger.ToContext(r.Context(), l)
 
 			next.ServeHTTP(w, r.WithContext(ctx))
-		})
-	}
-}
-
-func Panic() Middleware {
-	return func(next http.Handler) http.Handler {
-		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			ctx := r.Context()
-			log := core_logger.FromContext(ctx)
-
-			responseHandler := core_response.NewHTTPResponseHandler(log, w)
-
-			defer func() {
-				if p := recover(); p != nil {
-					responseHandler.PanicResponse(
-						p,
-						"During handle HTTP Request got unexpected panic",
-					)
-				}
-			}()
-
-			next.ServeHTTP(w, r)
 		})
 	}
 }
@@ -89,9 +66,31 @@ func Trace() Middleware {
 
 			log.Debug(
 				"<<< Done HTTP request",
-				zap.Int("status_code", rw.GetStatusCodeOrPanic()),
+				zap.Int("status_code", rw.GetStatusCode()),
 				zap.Duration("latency", time.Since(before)),
 			)
+		})
+	}
+}
+
+func Panic() Middleware {
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			ctx := r.Context()
+			log := core_logger.FromContext(ctx)
+
+			responseHandler := core_response.NewHTTPResponseHandler(log, w)
+
+			defer func() {
+				if p := recover(); p != nil {
+					responseHandler.PanicResponse(
+						p,
+						"During handle HTTP Request got unexpected panic",
+					)
+				}
+			}()
+
+			next.ServeHTTP(w, r)
 		})
 	}
 }
