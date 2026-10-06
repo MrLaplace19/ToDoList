@@ -3,26 +3,25 @@ package users_transport_http
 import "github.com/MrLaplace19/ToDoList/internal/core/domain"
 
 type UserDTOResponse struct {
-	ID int `json:"id"`
-	Version int `json:"version"`
-	FullName string `json:"full_name"`
+	ID          int     `json:"id"`
+	Version     int     `json:"version"`
+	FullName    string  `json:"full_name"`
 	PhoneNumber *string `json:"phone_number"`
 }
 
-
-func userDTOFromDomain(user domain.User) UserDTOResponse{
+func userDTOFromDomain(user domain.User) UserDTOResponse {
 	return UserDTOResponse{
-		ID: user.ID,
-		Version: user.Version,
-		FullName: user.FullName,
+		ID:          user.ID,
+		Version:     user.Version,
+		FullName:    user.FullName,
 		PhoneNumber: user.PhoneNumber,
 	}
 }
 
-func usersDTOFromDomains(users []domain.User) []UserDTOResponse{
+func usersDTOFromDomains(users []domain.User) []UserDTOResponse {
 	usersDTO := make([]UserDTOResponse, len(users))
 
-	for i,v := range users{
+	for i, v := range users {
 		usersDTO[i] = userDTOFromDomain(v)
 	}
 

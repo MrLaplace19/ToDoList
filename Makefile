@@ -3,6 +3,12 @@ export
 
 export PROJECT_ROOT = $(shell pwd)
 
+env-jenkins-up:
+	@docker compose -f docker-compose.jenkins.yml up -d
+
+env-jenkins-down:
+	@ docker compose -f docker-compose.jenkins.yml down
+
 env-up:
 	@docker compose up -d postgres-app
 
@@ -13,7 +19,7 @@ env-cleanup:
 	@read -p "Are you sure you want to delete the database? (y/n): " confirm; \
 	if [ "$$confirm" = "y" ]; then \
 		docker compose down postgres-app port-forwarder ;  \
-		rm -rf out/pgdata/;  \
+		rm -rf ${PROJECT_ROOT}/out/pgdata/;  \
 		echo "Database deleted successfully."; \
 	else \
 		echo "Database deletion canceled."; \
@@ -61,4 +67,4 @@ todoapp-run:
 	@export LOGGER_FOLDER=${PROJECT_ROOT}/out/logs && \
 	export POSTGRES_HOST=localhost && \
 	go mod tidy && \
-	go run ./cmd/todoapp/main.go
+	go run ${PROJECT_ROOT}/cmd/todoapp/main.go

@@ -11,29 +11,29 @@ import (
 	"go.uber.org/zap"
 )
 
-type HTTPResponseHandler struct{
+type HTTPResponseHandler struct {
 	log *core_logger.Logger
-	w http.ResponseWriter
+	w   http.ResponseWriter
 }
 
-func NewHTTPResponseHandler(log *core_logger.Logger, w http.ResponseWriter) *HTTPResponseHandler{
+func NewHTTPResponseHandler(log *core_logger.Logger, w http.ResponseWriter) *HTTPResponseHandler {
 	return &HTTPResponseHandler{
 		log: log,
-		w: w,
+		w:   w,
 	}
 }
 
-func (h *HTTPResponseHandler) errorResponse(statusCode int, err error, msg string){
-	
+func (h *HTTPResponseHandler) errorResponse(statusCode int, err error, msg string) {
+
 	response := map[string]string{
 		"message": msg,
-		"error": err.Error(),
+		"error":   err.Error(),
 	}
 
 	h.JsonResponse(response, statusCode)
 }
 
-func (h *HTTPResponseHandler) PanicResponse(p any, msg string){
+func (h *HTTPResponseHandler) PanicResponse(p any, msg string) {
 	statusCode := http.StatusInternalServerError
 	err := fmt.Errorf("unexpected panic: %v", p)
 
@@ -46,18 +46,18 @@ func (h *HTTPResponseHandler) PanicResponse(p any, msg string){
 	)
 }
 
-func (h *HTTPResponseHandler) NoContentResponse(){
+func (h *HTTPResponseHandler) NoContentResponse() {
 	h.w.WriteHeader(http.StatusNoContent)
 }
 
-func (h *HTTPResponseHandler) ErrorResponse(err error, msg string){
-	
+func (h *HTTPResponseHandler) ErrorResponse(err error, msg string) {
+
 	var (
 		statusCode int
-		logFunc func(string, ...zap.Field)
+		logFunc    func(string, ...zap.Field)
 	)
 
-	switch  {
+	switch {
 	case errors.Is(err, core_errors.ErrInvalidArgument):
 		statusCode = http.StatusBadRequest
 		logFunc = h.log.Warn
@@ -65,11 +65,11 @@ func (h *HTTPResponseHandler) ErrorResponse(err error, msg string){
 	case errors.Is(err, core_errors.ErrNotFound):
 		statusCode = http.StatusNotFound
 		logFunc = h.log.Debug
-	
+
 	case errors.Is(err, core_errors.ErrConflict):
 		statusCode = http.StatusConflict
 		logFunc = h.log.Warn
-	
+
 	default:
 		statusCode = http.StatusInternalServerError
 		logFunc = h.log.Error
@@ -85,10 +85,10 @@ func (h *HTTPResponseHandler) ErrorResponse(err error, msg string){
 
 }
 
-func (h *HTTPResponseHandler) JsonResponse(responseBody any, statusCode int){
+func (h *HTTPResponseHandler) JsonResponse(responseBody any, statusCode int) {
 	h.w.WriteHeader(statusCode)
 
-	if err := json.NewEncoder(h.w).Encode(responseBody); err != nil{
+	if err := json.NewEncoder(h.w).Encode(responseBody); err != nil {
 		h.log.Error("write HTTP response", zap.Error(err))
 	}
 }

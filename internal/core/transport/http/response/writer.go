@@ -6,15 +6,15 @@ var (
 	StatusCodeInitialized = -1
 )
 
-type ResponseWriter struct{
+type ResponseWriter struct {
 	http.ResponseWriter
 	statusCode int
 }
 
-func NewResponseWriter(w http.ResponseWriter) *ResponseWriter{
+func NewResponseWriter(w http.ResponseWriter) *ResponseWriter {
 	return &ResponseWriter{
 		ResponseWriter: w,
-		statusCode: StatusCodeInitialized,
+		statusCode:     StatusCodeInitialized,
 	}
 }
 
@@ -23,9 +23,9 @@ func (rw *ResponseWriter) WriteHeader(statusCode int) {
 	rw.statusCode = statusCode
 }
 
-func (rw *ResponseWriter) GetStatusCodeOrPanic() int{
-	if rw.statusCode == StatusCodeInitialized{
-		panic("no status code set")
+func (rw *ResponseWriter) GetStatusCode() int {
+	if rw.statusCode == StatusCodeInitialized {
+		return http.StatusOK
 	}
 	return rw.statusCode
 }
