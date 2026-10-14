@@ -59,11 +59,12 @@ func (p *Pool)	QueryRow(
 	sql string,
 	args ...any,
 	) core_postgres_pool.Row{
-		return  p.Pool.QueryRow(ctx, sql, args...)
+		row :=  p.Pool.QueryRow(ctx, sql, args...)
+		return &pgxRow{row}
 	}
 
 
-func (p *Pool)	Exec(
+func (p *Pool)Exec(
 	ctx context.Context,
 	sql string,
 	arguments ...any,
