@@ -1,0 +1,21 @@
+package tasks_service
+
+import (
+	"context"
+	"fmt"
+)
+
+func (s *TasksService) DeleteTask(
+		ctx context.Context,
+		id int,
+	)error{
+		
+		if err := s.taskRepository.DeleteTask(ctx, id); err !=nil{
+			return fmt.Errorf(
+				"service delete task: %w",
+				err,
+			)
+		}
+
+		return nil
+	}

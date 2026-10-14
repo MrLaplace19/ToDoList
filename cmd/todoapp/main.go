@@ -11,6 +11,9 @@ import (
 	core_pgx_pool "github.com/MrLaplace19/ToDoList/internal/core/repository/postgres/pool/pgx"
 	core_http_middleware "github.com/MrLaplace19/ToDoList/internal/core/transport/http/middelware"
 	core_http_server "github.com/MrLaplace19/ToDoList/internal/core/transport/http/server"
+	tasks_postgres_repository "github.com/MrLaplace19/ToDoList/internal/features/tasks/repository/postgres"
+	tasks_service "github.com/MrLaplace19/ToDoList/internal/features/tasks/service"
+	tasks_transport_http "github.com/MrLaplace19/ToDoList/internal/features/tasks/transport/http"
 	users_postgres_repository "github.com/MrLaplace19/ToDoList/internal/features/users/repository/postgres"
 	users_service "github.com/MrLaplace19/ToDoList/internal/features/users/service"
 	users_transport_http "github.com/MrLaplace19/ToDoList/internal/features/users/transport/http"
@@ -48,6 +51,11 @@ func main() {
 	usersServices := users_service.NewUserService(usersRepository)
 	usersTransportHTTP := users_transport_http.NewUserHttpHandler(usersServices)
 
+	logger.Debug("initialized feature", zap.String("feature", "tasks"))
+	taskRepository := tasks_postgres_repository.NewTaskRepository(pool)
+	taskServices := tasks_service.NewTasksService(taskRepository)
+	taskTransportHTTP := tasks_transport_http.NewTasksHTTPHandler(taskServices)
+
 	logger.Debug("initialized HTTP server")
 
 	httpServer := core_http_server.NewHTTPServer(
@@ -60,6 +68,7 @@ func main() {
 	)
 	apiVersionRouterV1 := core_http_server.NewAPIVersion(core_http_server.ApiVersion1)
 	apiVersionRouterV1.RegisterRoutes(usersTransportHTTP.Routes()...)
+	apiVersionRouterV1.RegisterRoutes(taskTransportHTTP.Routes()...)
 
 	httpServer.RegisterAPIRouters(apiVersionRouterV1)
 	if err := httpServer.Run(ctx); err != nil {
