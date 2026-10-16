@@ -17,7 +17,7 @@ func (h *TasksHTTPHandler) DeleteTask(rw http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		responseHandler.ErrorResponse(
 			err,
-			"failed to get 'id'",
+			"failed to get `id`",
 		)
 		return
 	}
@@ -25,7 +25,7 @@ func (h *TasksHTTPHandler) DeleteTask(rw http.ResponseWriter, r *http.Request) {
 	if err := h.tasksService.DeleteTask(ctx, id); err != nil{
 		responseHandler.ErrorResponse(
 			err,
-			"failed to delete task: %w",
+			"failed to delete task",
 		)
 		return
 	}

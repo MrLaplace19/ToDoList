@@ -59,7 +59,7 @@ func (h *TasksHTTPHandler) PatchTask (rw http.ResponseWriter, r *http.Request) {
 	if err!=nil{
 		responseHandler.ErrorResponse(
 			err,
-			"failed to get 'id'",
+			"failed to get `id`",
 		)
 		return
 	}
@@ -68,7 +68,7 @@ func (h *TasksHTTPHandler) PatchTask (rw http.ResponseWriter, r *http.Request) {
 	if err := core_http_request.DecodeAndValidateRequest(r, &request); err !=nil{
 		responseHandler.ErrorResponse(
 			err,
-			"validate task failed: %w",
+			"validate task failed",
 		)
 		return
 	}
@@ -79,7 +79,7 @@ func (h *TasksHTTPHandler) PatchTask (rw http.ResponseWriter, r *http.Request) {
 	if err!=nil {
 		responseHandler.ErrorResponse(
 			err,
-			"failed task patch: %w",
+			"failed task patch",
 		)
 		return
 	}

@@ -19,7 +19,7 @@ func (h *TasksHTTPHandler) GetTask(rw http.ResponseWriter, r *http.Request){
 	if err !=nil{
 		responseHandler.ErrorResponse(
 			err,
-			"failed to get 'id': %w",
+			"failed to get `id`",
 		)
 		return
 	}
@@ -28,7 +28,7 @@ func (h *TasksHTTPHandler) GetTask(rw http.ResponseWriter, r *http.Request){
 	if err!=nil {
 		responseHandler.ErrorResponse(
 			err,
-			"failed to get task: %w",
+			"failed to get task",
 		)
 		return
 	} 
