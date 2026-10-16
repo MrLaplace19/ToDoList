@@ -20,7 +20,7 @@ func (h *TasksHTTPHandler) GetTasks(rw http.ResponseWriter, r *http.Request){
 	if err != nil{
 		responseHandler.ErrorResponse(
 			err,
-			"failed to get 'limit/offset': %w",
+			"failed to get `limit/offset`",
 		)
 		return
 	}
@@ -29,7 +29,7 @@ func (h *TasksHTTPHandler) GetTasks(rw http.ResponseWriter, r *http.Request){
 	if err!=nil{
 		responseHandler.ErrorResponse(
 			err,
-			"failed to get tasks: %w",
+			"failed to get tasks",
 		)
 		return
 	}
