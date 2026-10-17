@@ -12,9 +12,9 @@ import (
 )
 
 type PatchTaskRequest struct{
-	Title core_http_types.Nullable[string] `json:"title"`
-	Description core_http_types.Nullable[string] `json:"description"`
-	Completed core_http_types.Nullable[bool]	`json:"completed"`
+	Title core_http_types.Nullable[string] `json:"title" swaggertype:"string"`
+	Description core_http_types.Nullable[string] `json:"description" swaggertype:"string" extensions:"x-nullable"`
+	Completed core_http_types.Nullable[bool]	`json:"completed" swaggertype:"boolean"`
 }
 
 type PatchTaskResponse DTOTaskResponse
@@ -50,6 +50,20 @@ func (p *PatchTaskRequest) Validate() error{
 	return nil
 }
 
+// PatchTask godoc
+// @Summary Изменить задачу
+// @Description Изменяет только переданные поля. title и completed не допускают null; description можно очистить значением null.
+// @Tags tasks
+// @Accept json
+// @Produce json
+// @Param id path int true "Идентификатор"
+// @Param request body PatchTaskRequest true "Тело запроса"
+// @Success 200 {object} PatchTaskResponse "Успешный ответ"
+// @Failure 400 {object} core_http_response.ErrorResponse "Некорректные параметры запроса"
+// @Failure 404 {object} core_http_response.ErrorResponse "Объект не найден"
+// @Failure 409 {object} core_http_response.ErrorResponse "Конфликт версии при обновлении"
+// @Failure 500 {object} core_http_response.ErrorResponse "Внутренняя ошибка сервера"
+// @Router /tasks/{id} [patch]
 func (h *TasksHTTPHandler) PatchTask (rw http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	log := core_logger.FromContext(ctx)

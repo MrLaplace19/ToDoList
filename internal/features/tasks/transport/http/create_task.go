@@ -18,6 +18,18 @@ type CreateTaskRequest struct{
 type CreateTaskResponse DTOTaskResponse
 
 
+// CreateTask godoc
+// @Summary Создать задачу
+// @Description Создаёт задачу для пользователя author_id.
+// @Tags tasks
+// @Accept json
+// @Produce json
+// @Param request body CreateTaskRequest true "Тело запроса"
+// @Success 201 {object} CreateTaskResponse "Успешный ответ"
+// @Failure 400 {object} core_http_response.ErrorResponse "Некорректные параметры запроса"
+// @Failure 404 {object} core_http_response.ErrorResponse "Объект не найден"
+// @Failure 500 {object} core_http_response.ErrorResponse "Внутренняя ошибка сервера"
+// @Router /tasks [post]
 func (h *TasksHTTPHandler) CreateTask(rw http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	log := core_logger.FromContext(ctx)

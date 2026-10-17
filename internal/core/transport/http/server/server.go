@@ -6,8 +6,10 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/MrLaplace19/ToDoList/docs"
 	core_logger "github.com/MrLaplace19/ToDoList/internal/core/logger"
 	core_http_middleware "github.com/MrLaplace19/ToDoList/internal/core/transport/http/middelware"
+	"github.com/swaggo/http-swagger"
 	"go.uber.org/zap"
 )
 
@@ -80,4 +82,22 @@ func (s *HTTPServer) RegisterAPIRouters(routers ...*APIVersionRouter) {
 			http.StripPrefix(prefix, router.WithMiddleware()),
 		)
 	}
+}
+
+func (s *HTTPServer) RegisterSwaggerRoute(){
+	s.mux.Handle(
+		"/swagger/",
+		httpSwagger.Handler(
+			httpSwagger.URL("/swagger/doc.json"),
+		),
+	)
+
+	s.mux.HandleFunc(
+		"/swagger/doc.json",
+		func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_,_ =w.Write([]byte(docs.SwaggerInfo.ReadDoc()))
+		},
+	)
 }

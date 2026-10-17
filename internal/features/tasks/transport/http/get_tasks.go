@@ -11,6 +11,17 @@ import (
 
 type GetTasksResponse []DTOTaskResponse
 
+// GetTasks godoc
+// @Summary Получить задачи
+// @Description Возвращает список задач с необязательной пагинацией.
+// @Tags tasks
+// @Produce json
+// @Param limit query int false "Максимальное количество записей" minimum(0)
+// @Param offset query int false "Количество пропускаемых записей" minimum(0)
+// @Success 200 {object} GetTasksResponse "Успешный ответ"
+// @Failure 400 {object} core_http_response.ErrorResponse "Некорректные параметры запроса"
+// @Failure 500 {object} core_http_response.ErrorResponse "Внутренняя ошибка сервера"
+// @Router /tasks [get]
 func (h *TasksHTTPHandler) GetTasks(rw http.ResponseWriter, r *http.Request){
 	ctx := r.Context()
 	log := core_logger.FromContext(ctx)

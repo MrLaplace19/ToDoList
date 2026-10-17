@@ -13,8 +13,8 @@ import (
 )
 
 type PatchUserRequest struct {
-	FullName    core_http_types.Nullable[string] `json:"full_name"`
-	PhoneNumber core_http_types.Nullable[string] `json:"phone_number"`
+	FullName    core_http_types.Nullable[string] `json:"full_name" swaggertype:"string"`
+	PhoneNumber core_http_types.Nullable[string] `json:"phone_number" swaggertype:"string" extensions:"x-nullable"`
 }
 
 func (r *PatchUserRequest) Validate() error {
@@ -45,6 +45,20 @@ func (r *PatchUserRequest) Validate() error {
 
 type PatchUserDTOResponse UserDTOResponse
 
+// PatchUser godoc
+// @Summary Изменить пользователя
+// @Description Изменяет только переданные поля. full_name не допускает null; phone_number можно очистить значением null.
+// @Tags users
+// @Accept json
+// @Produce json
+// @Param id path int true "Идентификатор"
+// @Param request body PatchUserRequest true "Тело запроса"
+// @Success 200 {object} UserDTOResponse "Успешный ответ"
+// @Failure 400 {object} core_http_response.ErrorResponse "Некорректные параметры запроса"
+// @Failure 404 {object} core_http_response.ErrorResponse "Объект не найден"
+// @Failure 409 {object} core_http_response.ErrorResponse "Конфликт версии при обновлении"
+// @Failure 500 {object} core_http_response.ErrorResponse "Внутренняя ошибка сервера"
+// @Router /users/{id} [patch]
 func (h *UserHttpHandler) PatchUser(rw http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	log := core_logger.FromContext(ctx)

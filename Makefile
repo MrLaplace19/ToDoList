@@ -68,3 +68,17 @@ todoapp-run:
 	export POSTGRES_HOST=localhost && \
 	go mod tidy && \
 	go run ${PROJECT_ROOT}/cmd/todoapp/main.go
+
+todoapp-deploy:
+	@docker compose up --build todoapp
+
+todoapp-undeploy:
+	@docker compose down todoapp
+
+swagger-gen:
+	@docker compose run --rm swagger \
+		init \
+		-g cmd/todoapp/main.go \
+		-o docs \
+		--parseInternal \
+		--parseDependency 
