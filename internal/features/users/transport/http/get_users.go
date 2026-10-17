@@ -11,6 +11,17 @@ import (
 
 type GetUsersResponse []UserDTOResponse
 
+// GetUsers godoc
+// @Summary Получить пользователей
+// @Description Возвращает список пользователей с необязательной пагинацией.
+// @Tags users
+// @Produce json
+// @Param limit query int false "Максимальное количество записей" minimum(0)
+// @Param offset query int false "Количество пропускаемых записей" minimum(0)
+// @Success 200 {object} GetUsersResponse "Успешный ответ"
+// @Failure 400 {object} core_http_response.ErrorResponse "Некорректные параметры запроса"
+// @Failure 500 {object} core_http_response.ErrorResponse "Внутренняя ошибка сервера"
+// @Router /users [get]
 func (h *UserHttpHandler) GetUsers(rw http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 

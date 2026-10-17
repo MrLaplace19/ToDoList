@@ -83,7 +83,17 @@ func (t *Task) Validate() error{
 
 	return nil
 }
+func (t *Task) CompletedDuration() *time.Duration{
+	if !t.Completed{
+		return nil
+	}
+	if t.CompletedAt==nil{
+		return nil
+	}
 
+	duration := t.CompletedAt.Sub(t.CreatedAt)
+	return &duration
+}
 type PatchTask struct{
 	Title Nullable[string]
 	Description Nullable[string]
