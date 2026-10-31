@@ -35,12 +35,24 @@ POSTGRES_TIMEOUT=10s
 make env-up
 ```
 
-Когда PostgreSQL будет готов принимать подключения, применить миграции и запустить приложение:
+Применить миграции и запустить приложение (Compose автоматически дождётся готовности PostgreSQL):
 
 ```bash
 make migration-up
 make todoapp-deploy
 ```
+
+При запуске `make todoapp-deploy` база также поднимается автоматически, если была остановлена. Перед первым использованием по-прежнему нужно применить миграции.
+
+Если приложение сообщает `lookup postgres-app ... no such host`, проверьте контейнер базы и запустите сервисы из одного Compose-проекта:
+
+```bash
+docker compose ps -a postgres-app todoapp
+docker compose logs --tail=50 postgres-app
+make todoapp-deploy
+```
+
+Если PostgreSQL не запускается, причина будет в его логах. Каталог `out/pgdata` содержит данные базы; для восстановления запуска удалять его не требуется.
 
 API будет доступен по адресу `http://localhost:5050/api/v1`.
 Swagger: [http://localhost:5050/swagger/index.html](http://localhost:5050/swagger/index.html).
