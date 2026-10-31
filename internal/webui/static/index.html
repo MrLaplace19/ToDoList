@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ru">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#163e36"><title>Порядок — задачи и команда</title><link rel="stylesheet" href="/styles.css"><script src="/app.js" defer></script></head>
+<body>
+<aside class="sidebar">
+ <a class="brand" href="#tasks"><span class="brand-mark">✓</span> порядок<span class="brand-dot">.</span></a>
+ <div class="workspace"><span class="workspace-icon">П</span><div>Рабочее пространство<small>ToDoList / ваша команда</small></div></div>
+ <div class="nav-caption">УПРАВЛЕНИЕ</div>
+ <nav aria-label="Основная навигация">
+  <a href="#tasks" data-page="tasks"><span aria-hidden="true">▤</span>Задачи<span id="task-count" class="nav-count">—</span></a>
+  <a href="#users" data-page="users"><span aria-hidden="true">♧</span>Пользователи</a>
+  <a href="#statistics" data-page="statistics"><span aria-hidden="true">▥</span>Статистика</a>
+ </nav>
+ <div class="sidebar-bottom"><div class="sidebar-note"><span>Меньше суеты.<br>Больше сделанного.</span><p>Всё, что нужно для ясного<br>рабочего дня, — в одном месте.</p></div><a href="/swagger/index.html" target="_blank" rel="noopener">Документация API ↗</a></div>
+</aside>
+<div class="shell">
+ <header class="topbar"><span>Рабочее пространство <span class="slash">/</span> <strong id="breadcrumb">Задачи</strong></span><span class="today" id="today"></span></header>
+ <main>
+  <div class="page-heading"><div><p class="eyebrow">ВСЁ ПОД КОНТРОЛЕМ</p><h1 id="page-title">Задачи</h1><p id="page-description" class="muted">Освободите голову. Сосредоточьтесь на важном.</p></div><button type="button" class="primary" id="create-button">＋ Новая задача</button></div>
+  <div id="load-error" class="notice error" role="alert" hidden></div>
+  <section id="tasks-page" aria-label="Задачи">
+   <div class="summary-grid"><article class="summary"><span>Всего задач</span><strong id="total-count">—</strong><small>В вашем пространстве</small></article><article class="summary"><span>В работе <i class="dot orange"></i></span><strong id="active-count">—</strong><small>Шаг за шагом к результату</small></article><article class="summary"><span>Выполнено <i class="dot green"></i></span><strong id="done-count">—</strong><small>Уже можно выдохнуть</small></article></div>
+   <div class="panel"><div class="panel-toolbar"><div class="tabs" aria-label="Статус задач"><button data-status="all" class="selected">Все задачи</button><button data-status="active">В работе</button><button data-status="done">Выполненные</button></div><span id="visible-count" class="muted"></span></div>
+   <div class="filters"><label class="search"><span aria-hidden="true">⌕</span><input id="task-search" type="search" placeholder="Найти задачу…" aria-label="Поиск задач"></label><select id="task-author" aria-label="Фильтр по автору"><option value="">Все авторы</option></select><button class="secondary refresh-button" type="button" aria-label="Обновить данные">↻ Обновить</button></div>
+   <div id="task-list" class="task-list" aria-live="polite"></div><div class="panel-footer"><span>Порядок начинается с одной задачи.</span><span id="task-footer-count"></span></div></div>
+  </section>
+  <section id="users-page" aria-label="Пользователи" hidden><div class="panel"><div class="filters"><label class="search"><span aria-hidden="true">⌕</span><input id="user-search" type="search" placeholder="Имя, телефон или ID…" aria-label="Поиск пользователей"></label><button class="secondary refresh-button" type="button">↻ Обновить</button></div><div id="user-list" class="user-grid" aria-live="polite"></div></div></section>
+  <section id="statistics-page" aria-label="Статистика" hidden>
+   <form id="statistics-filter" class="panel statistics-filters"><label>Пользователь<select name="user_id" id="statistics-author"><option value="">Все пользователи</option></select></label><label>С даты (включительно)<input type="date" name="from"></label><label>До даты (исключительно)<input type="date" name="to"></label><button class="primary" type="submit">Применить</button><button class="secondary" type="reset">Сбросить</button></form>
+   <p id="statistics-error" class="notice error" role="alert" hidden></p>
+   <div class="summary-grid stats-grid"><article class="summary"><span>Создано задач</span><strong id="stat-created">—</strong></article><article class="summary"><span>Выполнено</span><strong id="stat-completed">—</strong></article><article class="summary"><span>Доля выполненных</span><strong id="stat-rate">—</strong></article><article class="summary"><span>Среднее время выполнения</span><strong id="stat-duration" class="duration">—</strong></article></div>
+   <div class="panel progress-panel"><div><p class="eyebrow">ПРОГРЕСС КОМАНДЫ</p><h2>Каждая задача имеет значение</h2><p class="muted" id="progress-caption">Выберите период, чтобы оценить результат.</p></div><div class="progress-track" role="progressbar" aria-label="Доля выполненных задач" aria-valuemin="0" aria-valuemax="100" id="progress"><div id="progress-bar"></div></div><p class="muted">Период учитывает дату создания задачи. Время считается от создания до выполнения.</p></div>
+  </section>
+  <footer class="main-footer"><span><i class="dot green"></i> Пространство для продуктивной работы</span><span>порядок. / ToDoList</span></footer>
+ </main>
+</div>
+<dialog id="editor" aria-labelledby="editor-title"><form id="editor-form"><div class="dialog-heading"><h2 id="editor-title"></h2><button type="button" class="icon-button" data-close="editor" aria-label="Закрыть">×</button></div><div id="editor-fields"></div><p id="editor-error" class="notice error" role="alert" hidden></p><div class="dialog-actions"><button class="secondary" type="button" data-close="editor">Отмена</button><button class="primary" type="submit" id="save-button">Сохранить</button></div></form></dialog>
+<dialog id="delete-dialog" aria-labelledby="delete-title"><form id="delete-form"><h2 id="delete-title">Удалить запись?</h2><p id="delete-description"></p><p id="delete-error" class="notice error" role="alert" hidden></p><div class="dialog-actions"><button type="button" class="secondary" data-close="delete-dialog">Отмена</button><button type="submit" class="danger">Удалить</button></div></form></dialog>
+<div id="toast" role="status" hidden></div>
+<noscript>Для работы интерфейса включите JavaScript в браузере.</noscript>
+</body></html>

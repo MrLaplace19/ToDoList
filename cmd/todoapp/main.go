@@ -3,10 +3,12 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/MrLaplace19/ToDoList/internal/webui"
 	"os"
 	"os/signal"
 	"syscall"
 
+	_ "github.com/MrLaplace19/ToDoList/docs"
 	core_logger "github.com/MrLaplace19/ToDoList/internal/core/logger"
 	core_pgx_pool "github.com/MrLaplace19/ToDoList/internal/core/repository/postgres/pool/pgx"
 	core_http_middleware "github.com/MrLaplace19/ToDoList/internal/core/transport/http/middelware"
@@ -21,9 +23,7 @@ import (
 	users_service "github.com/MrLaplace19/ToDoList/internal/features/users/service"
 	users_transport_http "github.com/MrLaplace19/ToDoList/internal/features/users/transport/http"
 	"go.uber.org/zap"
-	_ "github.com/MrLaplace19/ToDoList/docs"
 )
-
 
 // @title golang-todoapp
 // @version 1.0
@@ -90,6 +90,7 @@ func main() {
 		apiVersionRouterV1,
 	)
 	httpServer.RegisterSwaggerRoute()
+	httpServer.RegisterWebUI(webui.Handler())
 	if err := httpServer.Run(ctx); err != nil {
 		logger.Error("HTTP server run error", zap.Error(err))
 	}
