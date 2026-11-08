@@ -53,7 +53,7 @@ migration-down:
 	make migration-action action=down
 
 migration-action:
-	@if [-z "$(action)"]; then \
+	@if [ -z "$(action)" ]; then \
 		echo "Error: Migration action is required (up or down)."; \
 		exit 1; \
 	fi;\

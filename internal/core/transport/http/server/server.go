@@ -84,7 +84,7 @@ func (s *HTTPServer) RegisterAPIRouters(routers ...*APIVersionRouter) {
 	}
 }
 
-func (s *HTTPServer) RegisterSwaggerRoute(){
+func (s *HTTPServer) RegisterSwaggerRoute() {
 	s.mux.Handle(
 		"/swagger/",
 		httpSwagger.Handler(
@@ -97,7 +97,12 @@ func (s *HTTPServer) RegisterSwaggerRoute(){
 		func(w http.ResponseWriter, r *http.Request) {
 			w.Header().Set("Content-Type", "application/json")
 			w.WriteHeader(http.StatusOK)
-			_,_ =w.Write([]byte(docs.SwaggerInfo.ReadDoc()))
+			_, _ = w.Write([]byte(docs.SwaggerInfo.ReadDoc()))
 		},
 	)
+}
+
+// RegisterWebUI mounts the browser interface alongside the API.
+func (s *HTTPServer) RegisterWebUI(handler http.Handler) {
+	s.mux.Handle("/", handler)
 }
