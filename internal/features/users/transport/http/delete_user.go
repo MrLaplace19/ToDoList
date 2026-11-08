@@ -38,6 +38,7 @@ func (h *UserHttpHandler) DeleteUser(rw http.ResponseWriter, r *http.Request) {
 			err,
 			"failed to delete user",
 		)
+		return
 	}
 
 	responseHandler.NoContentResponse()
